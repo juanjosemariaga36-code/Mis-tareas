@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mi Plan de Estudio</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0d14;
+    --surface: #14141f;
+    --card: #1a1a2e;
+    --accent1: #7c3aed;
+    --accent2: #06b6d4;
+    --accent3: #f59e0b;
+    --accent4: #10b981;
+    --accent5: #ef4444;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --border: rgba(255,255,255,0.07);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    padding: 2rem 1rem;
+    background-image: radial-gradient(ellipse at 20% 20%, rgba(124,58,237,0.12) 0%, transparent 50%),
+                      radial-gradient(ellipse at 80% 80%, rgba(6,182,212,0.08) 0%, transparent 50%);
+  }
+
+  .container { max-width: 900px; margin: 0 auto; }
+
+  /* HEADER */
+  header {
+    text-align: center;
+    margin-bottom: 3rem;
+    animation: fadeDown 0.7s ease both;
+  }
+
+  .badge {
+    display: inline-block;
+    background: rgba(124,58,237,0.2);
+    border: 1px solid rgba(124,58,237,0.4);
+    color: #a78bfa;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.35rem 1rem;
+    border-radius: 999px;
+    margin-bottom: 1rem;
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    font-weight: 800;
+    line-height: 1.1;
+    background: linear-gradient(135deg, #fff 30%, #a78bfa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.75rem;
+  }
+
+  .subtitle {
+    color: var(--muted);
+    font-size: 1rem;
+    font-weight: 300;
+  }
+
+  /* BLOQUES DIARIOS */
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1rem;
+    padding-left: 0.25rem;
+  }
+
+  /* HORARIO ESCOLAR */
+  .school-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1rem;
+    margin-bottom: 3rem;
+  }
+
+  .day-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.25rem;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .day-card:nth-child(1) { animation-delay: 0.1s; --day-color: #7c3aed; }
+  .day-card:nth-child(2) { animation-delay: 0.2s; --day-color: #06b6d4; }
+  .day-card:nth-child(3) { animation-delay: 0.3s; --day-color: #10b981; }
+  .day-card:nth-child(4) { animation-delay: 0.4s; --day-color: #f59e0b; }
+  .day-card:nth-child(5) { animation-delay: 0.5s; --day-color: #ef4444; }
+
+  .day-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--day-color);
+    margin-bottom: 0.85rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .class-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.82rem;
+    color: #94a3b8;
+    padding: 0.28rem 0;
+  }
+
+  .class-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--day-color);
+    flex-shrink: 0;
+    opacity: 0.7;
+  }
+
+  /* PLAN DE ESTUDIO EN CASA */
+  .home-plan {
+    margin-bottom: 3rem;
+  }
+
+  .time-block {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .time-block:nth-child(2) { animation-delay: 0.15s; }
+  .time-block:nth-child(3) { animation-delay: 0.25s; }
+  .time-block:nth-child(4) { animation-delay: 0.35s; }
+  .time-block:nth-child(5) { animation-delay: 0.45s; }
+  .time-block:nth-child(6) { animation-delay: 0.55s; }
+
+  .time-label {
+    flex-shrink: 0;
+    width: 90px;
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--muted);
+    padding-top: 0.85rem;
+    text-align: right;
+  }
+
+  .time-line {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 20px;
+    flex-shrink: 0;
+  }
+
+  .time-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--accent1);
+    margin-top: 1rem;
+    flex-shrink: 0;
+  }
+
+  .time-connector {
+    width: 2px;
+    flex: 1;
+    background: var(--border);
+    margin-top: 4px;
+  }
+
+  .time-block.rest .time-dot { background: var(--accent4); }
+  .time-block.big-rest .time-dot { background: var(--accent3); }
+  .time-block.free .time-dot { background: var(--accent2); }
+
+  .block-card {
+    flex: 1;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 0.85rem 1.1rem;
+    border-left: 3px solid var(--accent1);
+  }
+
+  .time-block.rest .block-card { border-left-color: var(--accent4); background: rgba(16,185,129,0.05); }
+  .time-block.big-rest .block-card { border-left-color: var(--accent3); background: rgba(245,158,11,0.05); }
+  .time-block.free .block-card { border-left-color: var(--accent2); }
+
+  .block-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 0.2rem;
+  }
+
+  .block-desc {
+    font-size: 0.8rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* MATERIAS PRIORITARIAS */
+  .priority-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 3rem;
+  }
+
+  .priority-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1rem 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .priority-card:nth-child(1) { animation-delay: 0.1s; }
+  .priority-card:nth-child(2) { animation-delay: 0.2s; }
+  .priority-card:nth-child(3) { animation-delay: 0.3s; }
+  .priority-card:nth-child(4) { animation-delay: 0.4s; }
+
+  .priority-icon {
+    font-size: 1.5rem;
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.05);
+    flex-shrink: 0;
+  }
+
+  .priority-info strong {
+    display: block;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .priority-info span {
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+
+  /* HABITOS */
+  .habits-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-bottom: 3rem;
+  }
+
+  @media (max-width: 500px) {
+    .habits-list { grid-template-columns: 1fr; }
+    .school-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  .habit-item {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 0.9rem 1rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .habit-item:nth-child(1) { animation-delay: 0.1s; }
+  .habit-item:nth-child(2) { animation-delay: 0.2s; }
+  .habit-item:nth-child(3) { animation-delay: 0.3s; }
+  .habit-item:nth-child(4) { animation-delay: 0.4s; }
+  .habit-item:nth-child(5) { animation-delay: 0.5s; }
+  .habit-item:nth-child(6) { animation-delay: 0.6s; }
+
+  .habit-emoji {
+    font-size: 1.2rem;
+    flex-shrink: 0;
+    margin-top: 0.05rem;
+  }
+
+  .habit-text strong {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 0.15rem;
+  }
+
+  .habit-text span {
+    font-size: 0.75rem;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+
+  /* MOTIVACION */
+  .motivation {
+    background: linear-gradient(135deg, rgba(124,58,237,0.15), rgba(6,182,212,0.1));
+    border: 1px solid rgba(124,58,237,0.3);
+    border-radius: 16px;
+    padding: 1.75rem;
+    text-align: center;
+    animation: fadeUp 0.7s ease 0.6s both;
+  }
+
+  .motivation p {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #c4b5fd;
+    line-height: 1.5;
+    margin-bottom: 0.5rem;
+  }
+
+  .motivation small {
+    color: var(--muted);
+    font-size: 0.8rem;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="badge">Secundaria Alta · 9°–11°</div>
+    <h1>Mi Plan de Estudio</h1>
+    <p class="subtitle">Organizado · Consistente · Con propósito</p>
+  </header>
+
+  <!-- HORARIO ESCOLAR -->
+  <p class="section-title">📅 Horario escolar — 6:05 AM · Clases de 45 min</p>
+  <div class="school-grid">
+    <div class="day-card">
+      <div class="day-name">Lunes</div>
+      <div class="class-item"><span class="class-dot"></span>Química</div>
+      <div class="class-item"><span class="class-dot"></span>Física</div>
+      <div class="class-item"><span class="class-dot"></span>Inglés</div>
+      <div class="class-item"><span class="class-dot"></span>Matemáticas</div>
+      <div class="class-item"><span class="class-dot"></span>Español</div>
+      <div class="class-item"><span class="class-dot"></span>Emprendimiento</div>
+    </div>
+    <div class="day-card">
+      <div class="day-name">Martes</div>
+      <div class="class-item"><span class="class-dot"></span>Español</div>
+      <div class="class-item"><span class="class-dot"></span>Matemáticas</div>
+      <div class="class-item"><span class="class-dot"></span>Filosofía</div>
+      <div class="class-item"><span class="class-dot"></span>Geografía</div>
+      <div class="class-item"><span class="class-dot"></span>Artística</div>
+      <div class="class-item"><span class="class-dot"></span>Química</div>
+    </div>
+    <div class="day-card">
+      <div class="day-name">Miércoles</div>
+      <div class="class-item"><span class="class-dot"></span>Ética</div>
+      <div class="class-item"><span class="class-dot"></span>Política</div>
+      <div class="class-item"><span class="class-dot"></span>Matemáticas</div>
+      <div class="class-item"><span class="class-dot"></span>Inglés</div>
+      <div class="class-item"><span class="class-dot"></span>Economía</div>
+      <div class="class-item"><span class="class-dot"></span>Ed. Física</div>
+    </div>
+    <div class="day-card">
+      <div class="day-name">Jueves</div>
+      <div class="class-item"><span class="class-dot"></span>Español</div>
+      <div class="class-item"><span class="class-dot"></span>Tecnología</div>
+      <div class="class-item"><span class="class-dot"></span>Religión</div>
+      <div class="class-item"><span class="class-dot"></span>Filosofía</div>
+      <div class="class-item"><span class="class-dot"></span>Inglés</div>
+      <div class="class-item"><span class="class-dot"></span>Física</div>
+    </div>
+    <div class="day-card">
+      <div class="day-name">Viernes</div>
+      <div class="class-item"><span class="class-dot"></span>Español</div>
+      <div class="class-item"><span class="class-dot"></span>Física</div>
+      <div class="class-item"><span class="class-dot"></span>Inglés</div>
+      <div class="class-item"><span class="class-dot"></span>Química</div>
+      <div class="class-item"><span class="class-dot"></span>Matemáticas</div>
+      <div class="class-item"><span class="class-dot"></span>Biología</div>
+    </div>
+  </div>
+
+  <!-- PLAN EN CASA -->
+  <p class="section-title">🏠 Rutina de estudio en casa — Después del colegio</p>
+  <div class="home-plan">
+
+    <div class="time-block">
+      <div class="time-label">Al llegar</div>
+      <div class="time-line"><div class="time-dot"></div><div class="time-connector"></div></div>
+      <div class="block-card">
+        <div class="block-title">⚡ Revisión rápida del día (15 min)</div>
+        <div class="block-desc">Anota qué tareas tienes, qué temas viste y qué hay para mañana. Esto reemplaza el "¿por dónde empiezo?"</div>
+      </div>
+    </div>
+
+    <div class="time-block rest">
+      <div class="time-label">Descanso</div>
+      <div class="time-line"><div class="time-dot"></div><div class="time-connector"></div></div>
+      <div class="block-card">
+        <div class="block-title">☕ Descanso real (30 min)</div>
+        <div class="block-desc">Come algo, sal un momento. No redes sociales — eso reinicia tu concentración.</div>
+      </div>
+    </div>
+
+    <div class="time-block">
+      <div class="time-label">Bloque 1</div>
+      <div class="time-line"><div class="time-dot"></div><div class="time-connector"></div></div>
+      <div class="block-card">
+        <div class="block-title">🔥 Materia más difícil (50 min)</div>
+        <div class="block-desc">Matemáticas, Química o Física primero. Tu cerebro está más fresco y rinde mejor en lo complejo.</div>
+      </div>
+    </div>
+
+    <div class="time-block rest">
+      <div class="time-label">Descanso</div>
+      <div class="time-line"><div class="time-dot"></div><div class="time-connector"></div></div>
+      <div class="block-card">
+        <div class="block-title">🚶 Pausa activa (10 min)</div>
+        <div class="block-desc">Levántate, toma agua, estira. Nada de pantallas.</div>
+      </div>
+    </div>
+
+    <div class="time-block">
+      <div class="time-label">Bloque 2</div>
+      <div class="time-line"><div class="time-dot"></div><div class="time-connector"></div></div>
+      <div class="block-card">
+        <div class="block-title">📝 Tareas y repasos (50 min)</div>
+        <div class="block-desc">Resuelve tareas pendientes. Repasa los apuntes de las clases del día para que queden frescos.</div>
+      </div>
+    </div>
+
+    <div class="time-block big-rest">
+      <div class="time-label">Descanso</div>
+      <div class="time-line"><div class="time-dot"></div><div class="time-connector"></div></div>
+      <div class="block-card">
+        <div class="block-title">🌟 Descanso largo (20 min)</div>
+        <div class="block-desc">El más importante. Recarga energía antes del último empujón.</div>
+      </div>
+    </div>
+
+    <div class="time-block free">
+      <div class="time-label">Bloque 3</div>
+      <div class="time-line"><div class="time-dot"></div><div class="time-connector"></div></div>
+      <div class="block-card">
+        <div class="block-title">🚀 Avance o proyecto personal (50 min)</div>
+        <div class="block-desc">Estudia con anticipación para la próxima semana o trabaja en tus proyectos. Este bloque es tuyo.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- MATERIAS PRIORITARIAS -->
+  <p class="section-title">🎯 Materias que más necesitan atención diaria</p>
+  <div class="priority-grid">
+    <div class="priority-card">
+      <div class="priority-icon">➗</div>
+      <div class="priority-info">
+        <strong>Matemáticas</strong>
+        <span>3 veces por semana · Práctica diaria</span>
+      </div>
+    </div>
+    <div class="priority-card">
+      <div class="priority-icon">⚗️</div>
+      <div class="priority-info">
+        <strong>Química</strong>
+        <span>Repasa fórmulas · Lun, Mar, Vie</span>
+      </div>
+    </div>
+    <div class="priority-card">
+      <div class="priority-icon">⚡</div>
+      <div class="priority-info">
+        <strong>Física</strong>
+        <span>Ejercicios prácticos · Lun, Jue, Vie</span>
+      </div>
+    </div>
+    <div class="priority-card">
+      <div class="priority-icon">🌍</div>
+      <div class="priority-info">
+        <strong>Inglés</strong>
+strong>
+        <span>Vocabulario diario · 15 min extra</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- HÁBITOS -->
+  <p class="section-title">💡 Hábitos clave para no desorganizarte</p>
+  <div class="habits-list">
+    <div class="habit-item">
+      <span class="habit-emoji">📓</span>
+      <div class="habit-text">
+        <strong>Una libreta para todo</strong>
+        <span>Anota tareas, fechas y exámenes en un solo lugar. No confíes en la memoria.</span>
+      </div>
+    </div>
+    <div class="habit-item">
+      <span class="habit-emoji">🌙</span>
+      <div class="habit-text">
+        <strong>Prepara el día siguiente</strong>
+        <span>Antes de dormir, revisa qué necesitas mañana. 5 minutos que cambian todo.</span>
+      </div>
+    </div>
+    <div class="habit-item">
+      <span class="habit-emoji">📵</span>
+      <div class="habit-text">
+        <strong>Teléfono en modo avión</strong>
+        <span>Durante los bloques de 50 min. Las notificaciones destruyen la concentración.</span>
+      </div>
+    </div>
+    <div class="habit-item">
+      <span class="habit-emoji">📅</span>
+      <div class="habit-text">
+        <strong>Planea cada domingo</strong>
+        <span>15 minutos para organizar la semana. Primero lo urgente e importante.</span>
+      </div>
+    </div>
+    <div class="habit-item">
+      <span class="habit-emoji">✅</span>
+      <div class="habit-text">
+        <strong>Tacha lo que completas</strong>
+        <span>Ver tu progreso visual te da motivación para seguir.</span>
+      </div>
+    </div>
+    <div class="habit-item">
+      <span class="habit-emoji">😴</span>
+      <div class="habit-text">
+        <strong>Duerme mínimo 8 horas</strong>
+        <span>Tu cerebro consolida lo que aprendiste mientras duermes. No lo sabotees.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MOTIVACION -->
+  <div class="motivation">
+    <p>"No tienes que ser perfecto desde el día 1.<br>Solo tienes que ser consistente."</p>
+    <small>Un bloque al día ya te pone por delante de ayer. Tú puedes. 💜</small>
+  </div>
+
+</div>
+</body>
+</html>
